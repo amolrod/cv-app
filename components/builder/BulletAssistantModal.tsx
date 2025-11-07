@@ -20,17 +20,24 @@ const buildBullet = (
   metric: string,
   impact: string
 ) => {
-  let result = action.trim();
-  if (technology.trim()) {
-    result = `${result} con ${technology.trim()}`;
+  const segments: string[] = [];
+  const trimmedAction = action.trim();
+  if (trimmedAction) {
+    segments.push(trimmedAction);
   }
-  if (metric.trim()) {
-    result = `${result} logrando ${metric.trim()}`;
+  const tech = technology.trim();
+  if (tech) {
+    segments.push(`con ${tech}`);
   }
-  if (impact.trim()) {
-    result = `${result} (${impact.trim()})`;
+  const metricValue = metric.trim();
+  if (metricValue) {
+    segments.push(`logrando ${metricValue}`);
   }
-  return result;
+  const impactValue = impact.trim();
+  if (impactValue) {
+    segments.push(`(${impactValue})`);
+  }
+  return segments.join(" ").replace(/\s+/g, " ").trim();
 };
 
 type BulletAssistantModalProps = {

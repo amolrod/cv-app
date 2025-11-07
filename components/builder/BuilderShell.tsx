@@ -1,6 +1,13 @@
 "use client";
 
-import { ChangeEvent, useEffect, useMemo, useRef, useState } from "react";
+import {
+  ChangeEvent,
+  CSSProperties,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import {
   Download,
   LayoutTemplate,
@@ -33,6 +40,10 @@ import { JDMatcherPanel } from "@/components/builder/JDMatcherPanel";
 import { ResumePage } from "@/components/resume/ResumePage";
 import { ACCENT_PRESETS, FONT_PRESETS } from "@/lib/defaults";
 import { useCv } from "@/providers/cv-provider";
+import {
+  InlineExperienceProvider,
+  useInlineExperience,
+} from "@/providers/inline-experience-provider";
 import { normalizeState } from "@/utils/state";
 import { BuilderState, FontPreset, TemplateId } from "@/types/cv";
 
@@ -41,8 +52,19 @@ type Status = {
   message: string;
 };
 
+type AccentStyle = CSSProperties & { "--accent"?: string };
+
 export const BuilderShell = () => {
+  return (
+    <InlineExperienceProvider>
+      <BuilderShellInner />
+    </InlineExperienceProvider>
+  );
+};
+
+const BuilderShellInner = () => {
   const { state, updateUi, addExperience, reset, hydrated } = useCv();
+  const { activeExperienceId, setActiveExperienceId } = useInlineExperience();
   const experienceRef = useRef<ExperienceFormHandle>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [status, setStatus] = useState<Status | null>(null);
@@ -72,6 +94,11 @@ export const BuilderShell = () => {
 
   const handleCompactToggle = () => {
     updateUi({ compact: !state.ui.compact });
+  };
+
+  const handleAddExperience = () => {
+    const newId = addExperience();
+    setActiveExperienceId(newId);
   };
 
   const handleExportJson = () => {
@@ -116,6 +143,11 @@ export const BuilderShell = () => {
     [state.ui.compact]
   );
 
+  const accentStyle = useMemo<AccentStyle>(
+    () => ({ "--accent": state.ui.accent }),
+    [state.ui.accent]
+  );
+
   if (!hydrated) {
     return (
       <div className="flex min-h-screen items-center justify-center">
@@ -125,7 +157,7 @@ export const BuilderShell = () => {
   }
 
   return (
-    <div className="flex min-h-screen flex-col gap-6 py-10">
+    <div className="flex min-h-screen flex-col gap-6 py-10" style={accentStyle}>
       <header className="no-print mx-auto w-full max-w-6xl rounded-3xl border border-slate-200 bg-white px-6 py-5 shadow-lg shadow-slate-900/10">
         <div className="flex flex-wrap items-center justify-between gap-6">
           <div>
@@ -137,7 +169,7 @@ export const BuilderShell = () => {
             </h1>
           </div>
           <div className="flex flex-wrap items-center gap-3">
-            <Button type="button" variant="outline" onClick={addExperience}>
+            <Button type="button" variant="outline" onClick={handleAddExperience}>
               Añadir experiencia
             </Button>
             <Button
@@ -170,7 +202,10 @@ export const BuilderShell = () => {
           <div className="flex flex-wrap items-center gap-3">
             <LayoutTemplate className="h-4 w-4 text-slate-500" aria-hidden="true" />
             <Select value={state.ui.template} onValueChange={handleTemplateChange}>
-              <SelectTrigger>
+              <SelectTrigger
+                aria-label="Seleccionar plantilla"
+                className="min-w-[220px]"
+              >
                 <SelectValue placeholder="Plantilla" />
               </SelectTrigger>
               <SelectContent>
@@ -195,7 +230,7 @@ export const BuilderShell = () => {
                 <button
                   key={preset.value}
                   type="button"
-                  className="h-8 w-8 rounded-full border border-slate-200"
+                  className="h-8 w-8 rounded-full border border-slate-200 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-white"
                   style={{ backgroundColor: preset.value }}
                   onClick={() => handleAccentChange(preset.value)}
                   aria-label={`Usar color ${preset.label}`}
@@ -212,7 +247,10 @@ export const BuilderShell = () => {
               value={String(state.ui.fontPreset)}
               onValueChange={handleFontChange}
             >
-              <SelectTrigger>
+              <SelectTrigger
+                aria-label="Seleccionar tipografía"
+                className="min-w-[200px]"
+              >
                 <SelectValue placeholder="Fuente" />
               </SelectTrigger>
               <SelectContent>
@@ -277,7 +315,7 @@ export const BuilderShell = () => {
           <JDMatcherPanel />
         </div>
         <div className="sticky top-8 flex flex-col gap-4 self-start">
-          <ResumePage />
+          <ResumePage activeExperienceId={activeExperienceId} />
           <div className="no-print rounded-3xl border border-slate-200 bg-white p-4 text-xs text-slate-600 shadow-sm">
             <p className="font-semibold text-slate-700">
               Consejos para exportar a PDF

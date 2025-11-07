@@ -18,14 +18,15 @@ export default function Home() {
         <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
           <Link
             href="/builder"
-            className="inline-flex items-center gap-2 rounded-full bg-emerald-700 px-6 py-3 text-base font-semibold text-white shadow-lg shadow-emerald-700/30 transition hover:bg-emerald-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700"
+            className="inline-flex items-center gap-2 rounded-full bg-[var(--accent)] px-7 py-3 text-base font-semibold text-white shadow-lg shadow-[var(--accent)]/30 transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+            aria-label="Crear CV ahora"
           >
             Crear CV ahora
             <ArrowRight className="h-4 w-4" aria-hidden="true" />
           </Link>
           <Link
             href="/builder"
-            className="inline-flex items-center gap-2 rounded-full border border-slate-300/80 px-6 py-3 text-base font-semibold text-slate-700 transition hover:border-slate-400 hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-400"
+            className="inline-flex items-center gap-2 rounded-full border border-slate-300/80 px-6 py-3 text-base font-semibold text-slate-700 transition hover:border-slate-400 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-white"
           >
             Ver plantillas
           </Link>

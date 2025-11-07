@@ -217,7 +217,7 @@ type CvContextValue = {
   hydrated: boolean;
   dispatch: Dispatch<BuilderAction>;
   updateProfile: (payload: Partial<Profile>) => void;
-  addExperience: () => void;
+  addExperience: () => string;
   updateExperience: (id: string, patch: Partial<Experience>) => void;
   removeExperience: (id: string) => void;
   moveExperience: (id: string, direction: MoveDirection) => void;
@@ -263,7 +263,9 @@ export const CvProvider = ({ children }: { children: ReactNode }) => {
   );
 
   const addExperience = useCallback(() => {
-    dispatch({ type: "addExperience", payload: createEmptyExperience() });
+    const entry = createEmptyExperience();
+    dispatch({ type: "addExperience", payload: entry });
+    return entry.id;
   }, [dispatch]);
 
   const updateExperience = useCallback(

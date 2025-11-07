@@ -103,7 +103,7 @@ export const tokenize = (text: string) => {
   return text
     .split(/\s+/)
     .map(sanitize)
-    .filter((token) => token.length > 1 && !STOPWORDS.has(token));
+    .filter((token) => token.length >= 3 && !STOPWORDS.has(token));
 };
 
 export const uniqueTokens = (tokens: string[]) => {
@@ -157,12 +157,14 @@ export const computeMatch = (jdText: string, data: CVData) => {
     };
   }
 
-  const cvKeywords = uniqueTokens(tokenize(buildCvKeywordCorpus(data)));
+  const cvTokens = tokenize(buildCvKeywordCorpus(data));
+  const cvKeywords = uniqueTokens(cvTokens);
+  const cvSet = new Set(cvKeywords);
   const matched: string[] = [];
   const missing: string[] = [];
 
   jdKeywords.forEach((keyword) => {
-    if (cvKeywords.includes(keyword)) {
+    if (cvSet.has(keyword)) {
       matched.push(keyword);
     } else {
       missing.push(keyword);
@@ -171,5 +173,10 @@ export const computeMatch = (jdText: string, data: CVData) => {
 
   const score = Math.round((matched.length / jdKeywords.length) * 100);
 
-  return { score, matched, missing, keywords: jdKeywords };
+  return {
+    score,
+    matched,
+    missing: missing.slice(0, 20),
+    keywords: jdKeywords,
+  };
 };
