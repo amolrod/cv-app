@@ -1,26 +1,102 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light;
+  --radius: 1.25rem;
+  --app-background: #f5f6f9;
+  --app-foreground: #1f2933;
+  --resume-accent: #0f6d53;
+  --resume-font-heading: var(--font-heading-0);
+  --resume-font-body: var(--font-body-0);
+  --resume-base-size: 12pt;
+  --resume-line-height: 1.45;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+.font-preset-0 {
+  --resume-font-heading: var(--font-heading-0);
+  --resume-font-body: var(--font-body-0);
 }
 
-@media (prefers-color-scheme: dark) {
+.font-preset-1 {
+  --resume-font-heading: var(--font-heading-1);
+  --resume-font-body: var(--font-body-1);
+}
+
+.font-preset-2 {
+  --resume-font-heading: var(--font-heading-2);
+  --resume-font-body: var(--font-body-2);
+}
+
+.resume-compact {
+  --resume-line-height: 1.25;
+}
+
+.resume-page {
+  width: 210mm;
+  min-height: 297mm;
+  padding: 24mm 22mm;
+  font-family: var(--resume-font-body), "Lato", system-ui, -apple-system;
+  font-size: var(--resume-base-size);
+  line-height: var(--resume-line-height);
+  color: #1e293b;
+  background: white;
+}
+
+.resume-heading {
+  font-family: var(--resume-font-heading), "Montserrat", system-ui, sans-serif;
+}
+
+.no-print {
+  position: relative;
+}
+
+.avoid-break {
+  break-inside: avoid;
+}
+
+.page-break {
+  break-after: page;
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 11mm;
+  }
+
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --app-background: white;
+  }
+
+  body {
+    background: white;
+  }
+
+  .no-print {
+    display: none !important;
   }
 }
 
+.text-balance {
+  text-wrap: balance;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+  margin: 0;
+  background: var(--app-background);
+  color: var(--app-foreground);
+  -webkit-font-smoothing: antialiased;
+  font-family: var(--font-body-0), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+a {
+  color: var(--resume-accent);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
 }

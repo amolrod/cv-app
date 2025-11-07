@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Curriculum Maker
 
-## Getting Started
+Aplicación web para crear currículums de desarrollador con enfoque ATS, plantillas profesionales y exportación optimizada a PDF.
 
-First, run the development server:
+### Stack principal
+- Next.js 14 (App Router) + TypeScript
+- Tailwind CSS v4 + shadcn/ui + lucide-react
+- Google Fonts (Montserrat, Lato, Poppins, Inter, Nunito Sans)
 
+### Características clave
+- Editor lateral con formularios dinámicos para perfil, experiencia, educación, proyectos y habilidades.
+- Plantillas seleccionables (Mejor práctica ATS, Clásico, Simple, Visual 2 columnas) con controles para tipografía, color de acento, tamaño base y modo compacto.
+- Asistente de logros basado en fórmula STAR y gestor de bullets con reordenamiento.
+- Panel JD Matcher con tokenizador ES/EN, cálculo de % de match y sugerencias rápidas para insertar keywords.
+- Exportación/Importación de datos en JSON y flujo guiado para imprimir/guardar en PDF con layout A4.
+- Persistencia automática en `localStorage` y preparado para futura exportación server-side (`/api/export`).
+
+### Desarrollo local
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Visita [http://localhost:3000](http://localhost:3000) para ver la landing y accede a `/builder` para usar el editor.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Scripts disponibles
+- `npm run dev`: arranca el entorno de desarrollo con Turbopack.
+- `npm run build`: genera el build de producción.
+- `npm run start`: sirve el build generado.
+- `npm run lint`: ejecuta ESLint sobre el proyecto.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Estructura destacada
+- `app/`: rutas (`/` landing, `/builder`, `/api/export`).
+- `components/builder`: formularios y shell del editor.
+- `components/resume`: plantillas imprimibles y componentes de sección.
+- `providers/`: contextos y estado global del CV.
+- `utils/`: normalización, almacenamiento, JD matcher y helpers.
+- `lib/defaults.ts`: presets de UI, fonts y datos de ejemplo.
 
-## Learn More
+### Exportar a PDF
+Usa el botón **Imprimir / PDF** del editor y selecciona *Guardar como PDF*. Configura:
+1. Tamaño A4 sin márgenes adicionales.
+2. Desactiva encabezados/pies del navegador.
+3. Activa “Gráficos de fondo” para conservar acentos.
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+La ruta `POST /api/export` devuelve actualmente un estado `501` como placeholder para una futura exportación server-side con Playwright o Puppeteer.
