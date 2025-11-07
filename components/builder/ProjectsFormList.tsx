@@ -34,7 +34,7 @@ export const ProjectsFormList = () => {
       title="Proyectos destacados"
       description="Muestra iniciativas relevantes, productos personales o contribuciones notables."
       actions={
-        <Button type="button" onClick={addProject}>
+        <Button type="button" variant="secondary" onClick={addProject}>
           <Plus className="mr-2 h-4 w-4" /> Añadir proyecto
         </Button>
       }
@@ -43,7 +43,7 @@ export const ProjectsFormList = () => {
         {projects.map((project, index) => (
           <article
             key={project.id}
-            className="rounded-2xl border border-slate-200/80 bg-slate-50/80 p-4"
+            className="rounded-2xl border border-slate-200 bg-slate-50 p-4"
           >
             <header className="mb-4 flex flex-wrap items-center justify-between gap-3">
               <span className="text-sm font-medium text-slate-500">
@@ -53,7 +53,7 @@ export const ProjectsFormList = () => {
                 <Button
                   type="button"
                   size="icon"
-                  variant="outline"
+                  variant="secondary"
                   disabled={index === 0}
                   onClick={() => moveProject(project.id, "up")}
                   aria-label="Mover proyecto arriba"
@@ -63,7 +63,7 @@ export const ProjectsFormList = () => {
                 <Button
                   type="button"
                   size="icon"
-                  variant="outline"
+                  variant="secondary"
                   disabled={index === projects.length - 1}
                   onClick={() => moveProject(project.id, "down")}
                   aria-label="Mover proyecto abajo"
@@ -147,7 +147,7 @@ export const ProjectsFormList = () => {
                     inputMode="url"
                   />
                   {project.link ? (
-                    <Button asChild variant="outline" size="icon">
+                    <Button asChild variant="secondary" size="icon">
                       <a
                         href={project.link}
                         target="_blank"
@@ -163,7 +163,7 @@ export const ProjectsFormList = () => {
           </article>
         ))}
         {projects.length === 0 ? (
-          <p className="rounded-2xl border border-dashed border-slate-300 bg-slate-50/60 p-6 text-center text-sm text-slate-500">
+          <p className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 text-center text-sm text-slate-500">
             Añade algún proyecto personal, open source o iniciativa interna para mostrar impacto adicional.
           </p>
         ) : null}

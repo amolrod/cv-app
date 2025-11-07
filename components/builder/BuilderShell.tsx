@@ -12,7 +12,6 @@ import {
   Download,
   LayoutTemplate,
   Palette,
-  Printer,
   Sparkles,
   Upload,
 } from "lucide-react";
@@ -134,7 +133,8 @@ const BuilderShellInner = () => {
     }
   };
 
-  const handlePrint = () => {
+  const handleDownloadPDF = () => {
+    // Trigger print dialog which allows saving as PDF
     window.print();
   };
 
@@ -157,54 +157,60 @@ const BuilderShellInner = () => {
   }
 
   return (
-    <div className="flex min-h-screen flex-col gap-6 py-10" style={accentStyle}>
-      <header className="no-print mx-auto w-full max-w-6xl rounded-3xl border border-slate-200 bg-white px-6 py-5 shadow-lg shadow-slate-900/10">
-        <div className="flex flex-wrap items-center justify-between gap-6">
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.28em] text-slate-500">
-              Curriculum Maker
-            </p>
-            <h1 className="resume-heading text-2xl font-semibold text-slate-900">
-              Editor profesional de CV
-            </h1>
-          </div>
-          <div className="flex flex-wrap items-center gap-3">
-            <Button type="button" variant="outline" onClick={handleAddExperience}>
-              Añadir experiencia
-            </Button>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => experienceRef.current?.openAssistant()}
-            >
-              <Sparkles className="mr-2 h-4 w-4" /> Añadir logro
-            </Button>
-            <Button type="button" variant="outline" onClick={handleExportJson}>
-              <Download className="mr-2 h-4 w-4" /> Exportar JSON
-            </Button>
-            <Button type="button" variant="outline" onClick={handleImportTrigger}>
-              <Upload className="mr-2 h-4 w-4" /> Importar JSON
-            </Button>
-            <Button type="button" onClick={handlePrint}>
-              <Printer className="mr-2 h-4 w-4" /> Imprimir / PDF
-            </Button>
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="application/json"
-              className="hidden"
-              onChange={handleImportFile}
-            />
+    <div className="flex min-h-screen flex-col gap-10 py-12 px-4 animate-fade-in-up" style={accentStyle}>
+      <header className="no-print mx-auto w-full max-w-7xl">
+        <div className="relative overflow-hidden rounded-3xl border border-white/60 bg-gradient-to-br from-white/90 to-white/70 p-8 shadow-2xl backdrop-blur-xl backdrop-saturate-150 transition-all hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)]">
+          {/* Decorative gradient orbs */}
+          <div className="pointer-events-none absolute -right-12 -top-12 h-48 w-48 rounded-full bg-gradient-to-br from-[var(--accent)]/10 to-purple-500/10 blur-3xl" />
+          <div className="pointer-events-none absolute -bottom-12 -left-12 h-48 w-48 rounded-full bg-gradient-to-br from-blue-500/10 to-[var(--accent)]/10 blur-3xl" />
+          
+          <div className="relative flex flex-wrap items-center justify-between gap-8">
+            <div className="flex items-center gap-4">
+              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-[var(--accent)] to-[var(--accent-dark)] shadow-lg shadow-[var(--accent)]/30">
+                <Sparkles className="h-7 w-7 text-white" />
+              </div>
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.32em] text-[var(--accent)]">
+                  Curriculum Maker
+                </p>
+                <h1 className="resume-heading mt-1 text-3xl font-bold bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 bg-clip-text text-transparent">
+                  Editor profesional de CV
+                </h1>
+              </div>
+            </div>
+            <div className="flex flex-wrap items-center gap-3">
+              <Button type="button" variant="secondary" size="default" onClick={handleAddExperience} className="shadow-md hover:shadow-lg transition-all">
+                Añadir experiencia
+              </Button>
+              <Button type="button" variant="secondary" size="default" onClick={handleExportJson} className="shadow-md hover:shadow-lg transition-all">
+                <Download className="mr-2 h-4 w-4" /> Exportar JSON
+              </Button>
+              <Button type="button" variant="secondary" size="default" onClick={handleImportTrigger} className="shadow-md hover:shadow-lg transition-all">
+                <Upload className="mr-2 h-4 w-4" /> Importar JSON
+              </Button>
+              <Button type="button" variant="primary" onClick={handleDownloadPDF} className="shadow-lg hover:shadow-xl transition-all">
+                <Download className="mr-2 h-4 w-4" /> Descargar PDF
+              </Button>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="application/json"
+                className="hidden"
+                onChange={handleImportFile}
+              />
+            </div>
           </div>
         </div>
 
-        <div className="mt-6 grid gap-4 md:grid-cols-[1fr_auto_auto_auto_auto] md:items-center">
+        <div className="relative mt-8 grid gap-4 md:grid-cols-[1fr_auto_auto_auto_auto] md:items-center">
           <div className="flex flex-wrap items-center gap-3">
-            <LayoutTemplate className="h-4 w-4 text-slate-500" aria-hidden="true" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-slate-100 to-slate-50 shadow-sm">
+              <LayoutTemplate className="h-4 w-4 text-slate-600" aria-hidden="true" />
+            </div>
             <Select value={state.ui.template} onValueChange={handleTemplateChange}>
               <SelectTrigger
                 aria-label="Seleccionar plantilla"
-                className="min-w-[220px]"
+                className="min-w-[220px] border-slate-200/80 bg-white/80 shadow-sm backdrop-blur-sm hover:bg-white transition-all"
               >
                 <SelectValue placeholder="Plantilla" />
               </SelectTrigger>
@@ -218,29 +224,33 @@ const BuilderShellInner = () => {
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
-            <Palette className="h-4 w-4 text-slate-500" aria-hidden="true" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-slate-100 to-slate-50 shadow-sm">
+              <Palette className="h-4 w-4 text-slate-600" aria-hidden="true" />
+            </div>
             <Input
               type="color"
               value={state.ui.accent}
               onChange={(event) => handleAccentChange(event.target.value)}
-              className="h-9 w-16 cursor-pointer rounded-md border border-slate-200 p-1"
+              className="h-10 w-16 cursor-pointer rounded-xl border border-slate-200/80 bg-white/80 p-1 shadow-sm backdrop-blur-sm transition-all hover:shadow-md"
             />
             <div className="flex flex-wrap gap-2">
               {ACCENT_PRESETS.map((preset) => (
                 <button
                   key={preset.value}
                   type="button"
-                  className="h-8 w-8 rounded-full border border-slate-200 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+                  className="group relative h-10 w-10 overflow-hidden rounded-xl border-2 border-white shadow-md transition-all hover:scale-110 hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-white"
                   style={{ backgroundColor: preset.value }}
                   onClick={() => handleAccentChange(preset.value)}
                   aria-label={`Usar color ${preset.label}`}
-                />
+                >
+                  <span className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
+                </button>
               ))}
             </div>
           </div>
 
-          <div className="flex flex-col gap-1">
-            <span className="text-xs font-medium uppercase text-slate-500">
+          <div className="flex flex-col gap-2">
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-600">
               Fuente
             </span>
             <Select
@@ -249,7 +259,7 @@ const BuilderShellInner = () => {
             >
               <SelectTrigger
                 aria-label="Seleccionar tipografía"
-                className="min-w-[200px]"
+                className="min-w-[200px] border-slate-200/80 bg-white/80 shadow-sm backdrop-blur-sm hover:bg-white transition-all"
               >
                 <SelectValue placeholder="Fuente" />
               </SelectTrigger>
@@ -264,7 +274,7 @@ const BuilderShellInner = () => {
           </div>
 
           <div className="flex flex-col gap-2">
-            <span className="text-xs font-medium uppercase text-slate-500">
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-600">
               Tamaño base ({state.ui.baseSizePt} pt)
             </span>
             <Slider
@@ -278,13 +288,14 @@ const BuilderShellInner = () => {
           </div>
 
           <div className="flex flex-col items-start gap-2">
-            <span className="text-xs font-medium uppercase text-slate-500">
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-600">
               Densidad
             </span>
             <Toggle
               pressed={state.ui.compact}
               onPressedChange={handleCompactToggle}
               variant="outline"
+              className="shadow-sm hover:shadow-md transition-all"
             >
               {compactLabel}
             </Toggle>
@@ -294,10 +305,10 @@ const BuilderShellInner = () => {
         {status ? (
           <div
             role="status"
-            className={`mt-4 rounded-2xl px-4 py-3 text-sm ${
+            className={`mt-6 rounded-2xl px-5 py-4 text-sm font-medium shadow-lg backdrop-blur-sm ${
               status.kind === "success"
-                ? "bg-emerald-50 text-emerald-700"
-                : "bg-rose-50 text-rose-700"
+                ? "bg-gradient-to-r from-emerald-50 to-emerald-100/80 text-emerald-800 border border-emerald-200"
+                : "bg-gradient-to-r from-rose-50 to-rose-100/80 text-rose-800 border border-rose-200"
             }`}
           >
             {status.message}
@@ -305,8 +316,8 @@ const BuilderShellInner = () => {
         ) : null}
       </header>
 
-      <div className="mx-auto grid w-full max-w-6xl grid-cols-1 gap-6 lg:grid-cols-[minmax(0,420px)_minmax(0,1fr)]">
-        <div className="no-print space-y-6">
+      <div className="mx-auto grid w-full max-w-7xl grid-cols-1 gap-10 px-4 lg:grid-cols-[minmax(0,440px)_minmax(0,1fr)]">
+        <div className="no-print space-y-6 stagger-children">
           <ProfileForm />
           <ExperienceFormList ref={experienceRef} />
           <ProjectsFormList />
@@ -314,17 +325,34 @@ const BuilderShellInner = () => {
           <SkillsLanguagesForm />
           <JDMatcherPanel />
         </div>
-        <div className="sticky top-8 flex flex-col gap-4 self-start">
+        <div className="sticky top-6 flex flex-col gap-6 self-start">
           <ResumePage activeExperienceId={activeExperienceId} />
-          <div className="no-print rounded-3xl border border-slate-200 bg-white p-4 text-xs text-slate-600 shadow-sm">
-            <p className="font-semibold text-slate-700">
-              Consejos para exportar a PDF
-            </p>
-            <ul className="mt-2 list-disc space-y-1 pl-5">
-              <li>Usa el botón &quot;Imprimir / PDF&quot; y selecciona &quot;Guardar como PDF&quot;.</li>
-              <li>Configura el tamaño a A4, sin márgenes adicionales y sin encabezados/pies del navegador.</li>
-              <li>Activa la opción de &quot;Gráficos de fondo&quot; para mantener colores y acentos.</li>
-            </ul>
+          <div className="no-print group relative overflow-hidden rounded-3xl border border-blue-200/60 bg-gradient-to-br from-blue-50/80 to-indigo-50/60 p-6 shadow-lg backdrop-blur-sm transition-all hover:shadow-xl">
+            <div className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-gradient-to-br from-blue-400/10 to-indigo-400/10 blur-2xl transition-all group-hover:scale-110" />
+            <div className="relative">
+              <p className="flex items-center gap-2 font-bold text-blue-900">
+                <Download className="h-4 w-4" />
+                Exportar a PDF (A4)
+              </p>
+              <ul className="mt-3 space-y-2 text-sm text-blue-800/90">
+                <li className="flex items-start gap-2">
+                  <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-blue-500/20 text-xs font-bold text-blue-700">1</span>
+                  <span>Haz clic en el botón <strong>&quot;Descargar PDF&quot;</strong> en la barra superior.</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-blue-500/20 text-xs font-bold text-blue-700">2</span>
+                  <span>Selecciona <strong>&quot;Guardar como PDF&quot;</strong> como destino de impresión.</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-blue-500/20 text-xs font-bold text-blue-700">3</span>
+                  <span>Configura el tamaño a <strong>A4</strong>, sin márgenes adicionales y sin encabezados/pies de página.</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-blue-500/20 text-xs font-bold text-blue-700">4</span>
+                  <span>Activa <strong>&quot;Gráficos de fondo&quot;</strong> para mantener colores y acentos del diseño.</span>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>

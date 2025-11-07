@@ -61,7 +61,11 @@ export const ResumePage = ({ activeExperienceId }: ResumePageProps) => {
   );
 
   return (
-    <div className="rounded-[28px] border border-slate-200 bg-white shadow-2xl shadow-slate-900/10">
+    <div className="group relative overflow-hidden rounded-[32px] border-4 border-white bg-white shadow-2xl shadow-slate-900/10 ring-1 ring-slate-200/50 transition-all hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.2)]">
+      {/* Decorative corner accents */}
+      <div className="pointer-events-none absolute right-0 top-0 h-32 w-32 bg-gradient-to-bl from-[var(--accent)]/5 to-transparent" />
+      <div className="pointer-events-none absolute bottom-0 left-0 h-32 w-32 bg-gradient-to-tr from-blue-500/5 to-transparent" />
+      
       <div className={className} style={style}>
         <Template
           data={data}

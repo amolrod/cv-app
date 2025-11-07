@@ -29,7 +29,7 @@ export const SkillsLanguagesForm = () => {
       actions={
         <Button
           type="button"
-          variant="outline"
+          variant="secondary"
           onClick={() => appendSkillKeyword("Frontend: React, Next.js, TypeScript")}
         >
           Insertar ejemplo

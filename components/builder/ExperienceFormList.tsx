@@ -108,17 +108,20 @@ export const ExperienceFormList = forwardRef<ExperienceFormHandle>((_, ref) => {
         {experience.map((item, index) => (
           <article
             key={item.id}
-            className="rounded-2xl border border-slate-200 bg-slate-50 p-4"
+            className="group relative overflow-hidden rounded-3xl border-2 border-slate-200/80 bg-gradient-to-br from-white to-slate-50/50 p-6 shadow-lg transition-all hover:border-slate-300 hover:shadow-xl"
           >
-            <header className="mb-4 flex flex-wrap items-center justify-between gap-3">
-              <span className="text-sm font-medium text-slate-500">
+            {/* Subtle decorative gradient */}
+            <div className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-gradient-to-br from-[var(--accent)]/5 to-blue-500/5 blur-2xl transition-all group-hover:scale-110" />
+            
+            <header className="relative mb-5 flex flex-wrap items-center justify-between gap-3">
+              <span className="rounded-full bg-gradient-to-r from-[var(--accent)]/10 to-blue-500/10 px-3 py-1 text-xs font-bold uppercase tracking-wider text-[var(--accent)]">
                 Puesto #{index + 1}
               </span>
               <div className="flex items-center gap-2">
                 <Button
                   type="button"
                   size="icon"
-                  variant="outline"
+                  variant="secondary"
                   disabled={index === 0}
                   onClick={() => moveExperience(item.id, "up")}
                   aria-label="Mover experiencia arriba"
@@ -128,7 +131,7 @@ export const ExperienceFormList = forwardRef<ExperienceFormHandle>((_, ref) => {
                 <Button
                   type="button"
                   size="icon"
-                  variant="outline"
+                  variant="secondary"
                   disabled={index === experience.length - 1}
                   onClick={() => moveExperience(item.id, "down")}
                   aria-label="Mover experiencia abajo"
@@ -222,7 +225,7 @@ export const ExperienceFormList = forwardRef<ExperienceFormHandle>((_, ref) => {
                   <Button
                     type="button"
                     size="sm"
-                    variant="outline"
+                    variant="secondary"
                     onClick={() => addBullet(item)}
                   >
                     <Plus className="mr-1 h-4 w-4" /> Añadir bullet

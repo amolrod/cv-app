@@ -51,22 +51,22 @@ export const JDMatcherPanel = () => {
         />
       </div>
 
-      <div className="mt-6 rounded-2xl border border-emerald-200 bg-emerald-50/80 p-4">
+  <div className="mt-6 rounded-3xl border-2 border-emerald-200/60 bg-gradient-to-br from-emerald-50/80 to-teal-50/60 p-6 shadow-lg backdrop-blur-sm">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <p className="text-sm font-semibold text-emerald-800">
+            <p className="text-sm font-bold uppercase tracking-wider text-emerald-700">
               Coincidencia estimada con la oferta
             </p>
-            <p className="text-2xl font-bold text-emerald-900">
+            <p className="mt-1 bg-gradient-to-r from-emerald-700 to-teal-700 bg-clip-text text-4xl font-extrabold text-transparent">
               {match.score}%
             </p>
           </div>
           <div className="flex gap-2">
-            <span className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-2 text-sm font-medium text-emerald-700">
+            <span className="inline-flex items-center gap-2 rounded-2xl border-2 border-emerald-200 bg-white px-4 py-2.5 text-sm font-bold text-emerald-700 shadow-md">
               <BadgeCheck className="h-4 w-4" aria-hidden="true" />
               {match.matched.length} coincidencias
             </span>
-            <span className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-2 text-sm font-medium text-amber-700">
+            <span className="inline-flex items-center gap-2 rounded-2xl border-2 border-amber-200 bg-white px-4 py-2.5 text-sm font-bold text-amber-700 shadow-md">
               <Target className="h-4 w-4" aria-hidden="true" />
               {match.missing.length} pendientes
             </span>
@@ -74,34 +74,35 @@ export const JDMatcherPanel = () => {
         </div>
 
         {match.missing.length ? (
-          <div className="mt-4 space-y-3">
-            <p className="text-sm text-slate-600">
+          <div className="mt-5 space-y-3">
+            <p className="text-sm font-medium text-emerald-800">
               Palabras clave que aún no aparecen en el CV. Pulsa para insertarlas en habilidades o en el objetivo.
             </p>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2.5" role="list">
               {match.missing.map((keyword) => (
                 <div
                   key={keyword}
-                  className="group inline-flex items-center gap-2 rounded-full border border-amber-200 bg-white px-3 py-1 text-sm text-amber-700 shadow-sm"
+                  role="listitem"
+                  className="group inline-flex items-center gap-2 rounded-2xl border-2 border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-800 shadow-md transition-all hover:border-slate-300 hover:shadow-lg hover:scale-105"
                 >
                   {formatKeyword(keyword)}
                   <Button
                     type="button"
-                    size="icon"
+                    size="icon-sm"
                     variant="ghost"
-                    className="h-8 w-8 text-emerald-700"
+                    className="text-emerald-700 transition-transform hover:scale-110"
+                    aria-label={`Añadir ${formatKeyword(keyword)} a habilidades`}
                     onClick={() => appendToSkills(keyword)}
-                    title="Añadir a habilidades"
                   >
                     <ClipboardPaste className="h-4 w-4" aria-hidden="true" />
                   </Button>
                   <Button
                     type="button"
-                    size="icon"
+                    size="icon-sm"
                     variant="ghost"
-                    className="h-8 w-8 text-slate-700"
+                    className="text-slate-700"
+                    aria-label={`Añadir ${formatKeyword(keyword)} al objetivo`}
                     onClick={() => appendToTarget(keyword)}
-                    title="Añadir al objetivo"
                   >
                     <Target className="h-4 w-4" aria-hidden="true" />
                   </Button>

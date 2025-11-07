@@ -34,7 +34,7 @@ export const EducationFormList = () => {
       title="Educación"
       description="Incluye solo formación relevante y certificaciones destacadas."
       actions={
-        <Button type="button" onClick={addEducation}>
+        <Button type="button" variant="secondary" onClick={addEducation}>
           <Plus className="mr-2 h-4 w-4" /> Añadir formación
         </Button>
       }
@@ -43,7 +43,7 @@ export const EducationFormList = () => {
         {education.map((item, index) => (
           <article
             key={item.id}
-            className="rounded-2xl border border-slate-200/80 bg-slate-50/80 p-4"
+            className="rounded-2xl border border-slate-200 bg-slate-50 p-4"
           >
             <header className="mb-4 flex flex-wrap items-center justify-between gap-3">
               <span className="text-sm font-medium text-slate-500">
@@ -53,7 +53,7 @@ export const EducationFormList = () => {
                 <Button
                   type="button"
                   size="icon"
-                  variant="outline"
+                  variant="secondary"
                   disabled={index === 0}
                   onClick={() => moveEducation(item.id, "up")}
                   aria-label="Mover formación arriba"
@@ -63,7 +63,7 @@ export const EducationFormList = () => {
                 <Button
                   type="button"
                   size="icon"
-                  variant="outline"
+                  variant="secondary"
                   disabled={index === education.length - 1}
                   onClick={() => moveEducation(item.id, "down")}
                   aria-label="Mover formación abajo"
@@ -143,7 +143,7 @@ export const EducationFormList = () => {
           </article>
         ))}
         {education.length === 0 ? (
-          <p className="rounded-2xl border border-dashed border-slate-300 bg-slate-50/60 p-6 text-center text-sm text-slate-500">
+          <p className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 text-center text-sm text-slate-500">
             Añade tus estudios o certificaciones para completar el perfil.
           </p>
         ) : null}

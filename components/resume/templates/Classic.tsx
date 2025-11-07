@@ -86,7 +86,7 @@ export const ClassicTemplate = ({
                 </div>
               </div>
               {item.bullets.length ? (
-                <ul className="mt-2 list-disc space-y-1 pl-5 text-[0.9em] text-slate-600">
+                <ul className="mt-2 list-disc space-y-1.5 pl-5 text-sm leading-6 text-slate-800 md:text-[0.95em]">
                   {item.bullets.map((bullet, idx) => (
                     <li key={`${item.id}-${idx}`} className="leading-relaxed">
                       <InlineEditableField
@@ -96,6 +96,7 @@ export const ClassicTemplate = ({
                         experienceId={item.id}
                         ariaLabel={`Editar logro ${idx + 1}`}
                         multiline
+                        className="text-slate-800"
                       />
                     </li>
                   ))}
